@@ -1,0 +1,56 @@
+server:
+  port: 6100
+
+  jpa:
+    open-in-view: false
+    hibernate.ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        dialect.storage_engine: innodb
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        hbm2ddl.import_files_sql_extractor: org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor
+        default_batch_fetch_size: ${chunkSize:1000}
+        connection.provider_disables_autocommit: true
+        jdbc.batch_size: ${chunkSize:1000}
+        format_sql: true
+        highlight_sql: true
+        use_sql_comments: true
+        jdbc.time_zone: UTC
+        timezone.default_storage: NORMALIZE
+        order_updates: true
+        order_inserts: true
+        jdbc.batch_versioned_data: true
+
+
+  config.activate.on-profile: local
+  datasource:
+    url: jdbc:mysql://localhost:3306/test
+    username: root
+    password: 1234
+    driver-class-name: software.aws.rds.jdbc.mysql.Driver
+    hikari:
+      connection-timeout: 3000
+      max-lifetime: 58000  # 58s
+      maximum-pool-size: 10
+      auto-commit: false
+      data-source-properties:
+        connectTimeout: 3000
+        socketTimeout: 60000
+        useUnicode: true
+        characterEncoding: utf-8
+        serverTimezone: UTC
+        rewriteBatchedStatements: true
+
+
+spring:
+  config:
+    activate:
+      on-profile: local
+
+jwt:
+  secret: d60a8f96de19bbb13a5d7b9b4489169d6283856b701d5cd2fce5a9faae85c82730fddc6950f1969e1606c308bd6dfeaa8bfef9aeddcc2073126d458ed2613fe2a011a16df6e8ef963cf587bdc6dff3f2e97ad94232abdd299a0447f8c13238b2d2195888b9e7320d2c3a32c4199be660f8b1e99fef1b84596e7a9533ba9e76656c37176ea7f04cbd1dd0474875caa6e891da910cca2b88c17e537faeec0d0023232472cf677759439aa372c614120eef987f49a7664130c9a920f9f38ba1751c8ef1de5a4171e64bfd00e0c0875ed957de300c26c87334b42f0e59676adb689415c9fbb3adcb102867ee263558a1d1ae2ab3d24c460f5b588eeeb49bab1b7f4e
+  access-expiration-time: 43200000    # 12시간
+  refresh-expiration-time: 259200000   # 7일
+
+
