@@ -35,7 +35,7 @@ public class UserEntity extends BaseEntity {
 
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
-    private RoleType role;
+    private RoleType role = RoleType.USER;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)

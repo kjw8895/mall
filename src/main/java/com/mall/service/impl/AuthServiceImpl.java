@@ -6,7 +6,7 @@ import com.mall.application.dto.TokenDto;
 import com.mall.application.dto.UserDto;
 import com.mall.config.JwtTokenProvider;
 import com.mall.domain.UserEntity;
-import com.mall.repository.UserRepository;
+import com.mall.repository.UserEntityRepository;
 import com.mall.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,13 +17,13 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
-    private final UserRepository userRepository;
+    private final UserEntityRepository userEntityRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
 
     @Override
     public TokenDto login(LoginDto loginDto) {
-        Optional<UserEntity> optionalUser = userRepository.findByEmail(loginDto.getEmail());
+        Optional<UserEntity> optionalUser = userEntityRepository.findByEmail(loginDto.getEmail());
         if (!optionalUser.isPresent()) {
             throw new RuntimeException("User not found");
         }
@@ -38,7 +38,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public UserDto signUp(SignUpDto signUpDto) {
         signUpDto.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
-        UserEntity user = userRepository.save(UserEntity.of(signUpDto));
+        UserEntity user = userEntityRepository.save(UserEntity.of(signUpDto));
 
         return new UserDto(user.getId(), user.getEmail(), user.getName(), user.getNickName());
     }
