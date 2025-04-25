@@ -1,5 +1,6 @@
 package com.mall.domain;
 
+import com.mall.application.dto.SignUpDto;
 import com.mall.code.RoleType;
 import com.mall.code.UserStatus;
 import jakarta.persistence.*;
@@ -39,5 +40,14 @@ public class UserEntity extends BaseEntity {
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private UserStatus status = UserStatus.ACTIVE;
+
+    public static UserEntity of(SignUpDto dto) {
+        UserEntity entity = new UserEntity();
+        entity.email = dto.getEmail();
+        entity.nickName = dto.getNickName();
+        entity.password = dto.getPassword();
+
+        return entity;
+    }
 }
 

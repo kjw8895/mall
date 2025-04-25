@@ -22,8 +22,4 @@ public class BaseEntity {
     @LastModifiedDate
     @Column(name = "modified_datetime")
     private LocalDateTime modifiedDatetime;
-
-    @Version
-    @Column(name = "version")
-    private Long version;
 }

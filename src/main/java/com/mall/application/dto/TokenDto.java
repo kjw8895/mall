@@ -11,5 +11,4 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class TokenDto implements Serializable {
     private String accessToken;
-    private String refreshToken;
 }

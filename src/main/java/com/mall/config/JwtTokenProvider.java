@@ -28,12 +28,12 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    public String generateRefreshToken(UserEntity user) {
-        return Jwts.builder()
-                .setSubject(user.getEmail())
-                .setExpiration(new Date(System.currentTimeMillis() + jwtProperties.getRefreshExpirationTime()))
-                .signWith(SignatureAlgorithm.HS512, jwtProperties.getSecret())
-                .compact();
-    }
+//    public String generateRefreshToken(UserEntity user) {
+//        return Jwts.builder()
+//                .setSubject(user.getEmail())
+//                .setExpiration(new Date(System.currentTimeMillis() + jwtProperties.getRefreshExpirationTime()))
+//                .signWith(SignatureAlgorithm.HS512, jwtProperties.getSecret())
+//                .compact();
+//    }
 }
 
