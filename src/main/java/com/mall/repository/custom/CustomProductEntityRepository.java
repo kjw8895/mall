@@ -7,4 +7,5 @@ import org.springframework.data.domain.Pageable;
 
 public interface CustomProductEntityRepository {
     Page<ProductUserVo> page(Pageable pageable, ProductSearchDto searchDto);
+    Page<ProductUserVo> mySelling(Pageable pageable, Long userId);
 }

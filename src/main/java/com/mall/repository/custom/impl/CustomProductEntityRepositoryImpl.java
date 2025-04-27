@@ -37,4 +37,16 @@ public class CustomProductEntityRepositoryImpl extends QuerydslRepositorySupport
                 ));
         return QuerydslPageUtils.page(getQuerydsl(), query, pageable);
     }
+
+    @Override
+    public Page<ProductUserVo> mySelling(Pageable pageable, Long userId) {
+        JPQLQuery<ProductUserVo> query = from(PRODUCT)
+                .join(PRODUCT.user, USER)
+                .where(USER.id.eq(userId))
+                .select(Projections.constructor(ProductUserVo.class,
+                        PRODUCT,
+                        USER
+                ));
+        return QuerydslPageUtils.page(getQuerydsl(), query, pageable);
+    }
 }

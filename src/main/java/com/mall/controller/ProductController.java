@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,9 +26,33 @@ public class ProductController {
         return CommonResponse.ok(page);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<CommonResponse<ProductDto>> page(@PathVariable Long id) {
+        ProductDto dto = productService.fetchById(id);
+        return CommonResponse.ok(dto);
+    }
+
+    @GetMapping("/my-selling")
+    public ResponseEntity<CommonResponse<Page<ProductDto>>> trade(@CurrentUser UserInfo userInfo, Pageable pageable) {
+        Page<ProductDto> page = productService.mySelling(userInfo, pageable);
+        return CommonResponse.ok(page);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<CommonResponse<ProductDto>> update(@PathVariable Long id, @CurrentUser UserInfo userInfo, @RequestPart("request") ProductCreateDto dto, @RequestPart(value = "file", required = false) MultipartFile file) {
+        ProductDto result = productService.update(userInfo, dto, file, id);
+        return CommonResponse.ok(result);
+    }
+
     @PostMapping()
-    public ResponseEntity<CommonResponse<ProductDto>> save(@CurrentUser UserInfo userInfo, @RequestBody ProductCreateDto dto) {
-        ProductDto save = productService.save(userInfo, dto);
+    public ResponseEntity<CommonResponse<ProductDto>> save(@CurrentUser UserInfo userInfo, @RequestPart("request") ProductCreateDto dto, @RequestPart("file") MultipartFile file) {
+        ProductDto save = productService.save(userInfo, dto, file);
         return CommonResponse.ok(save);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<CommonResponse<Boolean>> delete(@PathVariable Long id) {
+        productService.deleteById(id);
+        return CommonResponse.ok(true);
     }
 }

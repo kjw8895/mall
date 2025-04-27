@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "USER_POINT")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class UserPointEntity {
+public class UserPointEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -19,6 +19,9 @@ public class UserPointEntity {
     @Column(name = "type")
     @Enumerated(EnumType.STRING)
     private PointType type;
+
+    @Column(name = "point")
+    private Long point;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
