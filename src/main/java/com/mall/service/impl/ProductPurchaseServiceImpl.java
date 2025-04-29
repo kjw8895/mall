@@ -1,0 +1,58 @@
+package com.mall.service.impl;
+
+import com.mall.application.dto.ProductPurchaseDto;
+import com.mall.domain.ProductEntity;
+import com.mall.domain.ProductPurchaseEntity;
+import com.mall.domain.UserEntity;
+import com.mall.repository.ProductEntityRepository;
+import com.mall.repository.ProductPurchaseEntityRepository;
+import com.mall.repository.UserEntityRepository;
+import com.mall.service.ProductPurchaseService;
+import com.mall.service.UserPointService;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+@RequiredArgsConstructor
+@Transactional
+public class ProductPurchaseServiceImpl implements ProductPurchaseService {
+    private final ProductPurchaseEntityRepository productPurchaseEntityRepository;
+    private final UserEntityRepository userEntityRepository;
+    private final ProductEntityRepository productEntityRepository;
+    private final UserPointService userPointService;
+
+    @Override
+    public Page<ProductPurchaseDto> myPurchaseList(Long userId, Pageable pageable) {
+        Page<ProductPurchaseEntity> page = productPurchaseEntityRepository.findAllByUserId(userId, pageable);
+        return page.map(ProductPurchaseDto::toDto);
+    }
+
+    @Override
+    public List<ProductPurchaseDto> purchaseList(Long productId) {
+        List<ProductPurchaseEntity> entities = productPurchaseEntityRepository.findAllByProductId(productId);
+
+        return entities.stream().map(ProductPurchaseDto::toDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public ProductPurchaseDto save(BigDecimal price, Long productId, Long userId) {
+        UserEntity user = userEntityRepository.findById(userId).orElseThrow();
+        ProductEntity product = productEntityRepository.findById(productId).orElseThrow();
+        ProductPurchaseEntity productPurchase = ProductPurchaseEntity.of(user, product, price);
+        productPurchaseEntityRepository.save(productPurchase);
+        return ProductPurchaseDto.toDto(productPurchase);
+    }
+
+    @Override
+    public void delete(Long id) {
+        ProductPurchaseEntity entity = productPurchaseEntityRepository.findById(id).orElseThrow();
+        productPurchaseEntityRepository.delete(entity);
+    }
+}

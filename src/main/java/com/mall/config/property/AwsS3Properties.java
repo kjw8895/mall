@@ -25,7 +25,6 @@ public class AwsS3Properties {
     @Getter
     @Setter
     public static class Credential {
-        private boolean enabled;
         private String accessKey;
         private String secretKey;
     }

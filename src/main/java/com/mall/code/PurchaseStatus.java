@@ -3,6 +3,6 @@ package com.mall.code;
 import lombok.Getter;
 
 @Getter
-public enum PointType {
-    EARN, LOSE
+public enum PurchaseStatus {
+    OPEN, AWARDED
 }

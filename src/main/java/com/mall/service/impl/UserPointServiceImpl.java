@@ -1,6 +1,7 @@
 package com.mall.service.impl;
 
 import com.mall.code.PointType;
+import com.mall.domain.UserEntity;
 import com.mall.domain.UserPointEntity;
 import com.mall.repository.UserPointEntityRepository;
 import com.mall.service.UserPointService;
@@ -27,5 +28,11 @@ public class UserPointServiceImpl implements UserPointService {
             }
         });
         return totalPoint.get();
+    }
+
+    @Override
+    public void updatePoint(UserEntity user, Long point, PointType type) {
+        UserPointEntity entity = UserPointEntity.of(type, point, user);
+        userPointEntityRepository.save(entity);
     }
 }

@@ -22,10 +22,8 @@ public class AwsS3Config {
                 .withRegion(awsS3Properties.getRegion())
                 .enablePathStyleAccess();
 
-        if (awsS3Properties.getCredential().isEnabled()) {
-            BasicAWSCredentials awsCredentials = new BasicAWSCredentials(awsS3Properties.getCredential().getAccessKey(), awsS3Properties.getCredential().getSecretKey());
-            builder.withCredentials(new AWSStaticCredentialsProvider(awsCredentials));
-        }
+        BasicAWSCredentials awsCredentials = new BasicAWSCredentials(awsS3Properties.getCredential().getAccessKey(), awsS3Properties.getCredential().getSecretKey());
+        builder.withCredentials(new AWSStaticCredentialsProvider(awsCredentials));
 
         return builder.build();
     }

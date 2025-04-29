@@ -26,4 +26,12 @@ public class UserPointEntity extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
     private UserEntity user;
+
+    public static UserPointEntity of(PointType type, Long point, UserEntity user) {
+        UserPointEntity userPointEntity = new UserPointEntity();
+        userPointEntity.type = type;
+        userPointEntity.point = point;
+        userPointEntity.user = user;
+        return userPointEntity;
+    }
 }
