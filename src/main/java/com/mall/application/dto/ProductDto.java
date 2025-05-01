@@ -1,6 +1,7 @@
 package com.mall.application.dto;
 
 import com.mall.code.ProductStatus;
+import com.mall.code.ProductType;
 import com.mall.domain.ProductEntity;
 import com.mall.domain.UserEntity;
 import lombok.AllArgsConstructor;
@@ -20,6 +21,7 @@ public class ProductDto {
     private String imageUrl;
     private LocalDateTime createdDatetime;
     private ProductStatus status;
+    private ProductType type;
     private UserDto user;
 
     public static ProductDto toDto(ProductEntity product, UserEntity user) {
@@ -30,6 +32,7 @@ public class ProductDto {
         dto.imageUrl = product.getImageUrl();
         dto.createdDatetime = product.getCreatedDatetime();
         dto.status = product.getStatus();
+        dto.type = product.getType();
         dto.user = UserDto.fromUser(user);
         return dto;
     }

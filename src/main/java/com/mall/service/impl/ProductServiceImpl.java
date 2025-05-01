@@ -64,7 +64,7 @@ public class ProductServiceImpl implements ProductService {
             awsS3Service.putObject(awsS3Properties.getBucket(), awsS3Properties.getPath(fileName), file.getInputStream(), metadata);
 
             UserEntity user = userEntityRepository.findById(userInfo.getId()).orElseThrow(RuntimeException::new);
-            ProductEntity product = ProductEntity.of(dto.getName(), dto.getPrice(), user, awsS3Properties.getFullPath(fileName));
+            ProductEntity product = ProductEntity.of(dto.getName(), dto.getPrice(), user, awsS3Properties.getFullPath(fileName), dto.getType());
             productEntityRepository.save(product);
             return ProductDto.toDto(product, user);
         } catch (Exception e) {

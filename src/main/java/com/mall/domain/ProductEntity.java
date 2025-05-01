@@ -2,6 +2,7 @@ package com.mall.domain;
 
 import com.mall.application.dto.ProductCreateDto;
 import com.mall.code.ProductStatus;
+import com.mall.code.ProductType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -29,6 +30,10 @@ public class ProductEntity extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private ProductStatus status = ProductStatus.WAITING;
 
+    @Column(name = "type")
+    @Enumerated(EnumType.STRING)
+    private ProductType type;
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private UserEntity user;
@@ -45,12 +50,13 @@ public class ProductEntity extends BaseEntity {
         this.imageUrl = imageUrl;
     }
 
-    public static ProductEntity of(String name, BigDecimal price, UserEntity user, String imageUrl) {
+    public static ProductEntity of(String name, BigDecimal price, UserEntity user, String imageUrl, ProductType type) {
         ProductEntity productEntity = new ProductEntity();
         productEntity.name = name;
         productEntity.price = price;
         productEntity.user = user;
         productEntity.imageUrl = imageUrl;
+        productEntity.type = type;
         return productEntity;
     }
 }

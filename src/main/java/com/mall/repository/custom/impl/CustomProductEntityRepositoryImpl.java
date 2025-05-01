@@ -28,6 +28,7 @@ public class CustomProductEntityRepositoryImpl extends QuerydslRepositorySupport
         JPQLQuery<ProductUserVo> query = from(PRODUCT)
                 .join(PRODUCT.user, USER)
                 .where(QuerydslPageUtils.where()
+                        .and(PRODUCT.type.eq(searchDto.getType()))
                         .optionalAnd(searchDto.getUserName(), () -> USER.name.containsIgnoreCase(searchDto.getUserName()))
                         .optionalAnd(searchDto.getProductName(), () -> PRODUCT.name.containsIgnoreCase(searchDto.getProductName()))
                 )
