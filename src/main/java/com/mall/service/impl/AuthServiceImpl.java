@@ -32,7 +32,7 @@ public class AuthServiceImpl implements AuthService {
             throw new RuntimeException("Incorrect password");
         }
         String token = jwtTokenProvider.generateAccessToken(user);
-        return new TokenDto(token);
+        return new TokenDto(token, user.getId(), user.getNickName());
     }
 
     @Override

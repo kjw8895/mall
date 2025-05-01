@@ -43,6 +43,7 @@ public class UserEntity extends BaseEntity {
 
     public static UserEntity of(SignUpDto dto) {
         UserEntity entity = new UserEntity();
+        entity.name = dto.getName();
         entity.email = dto.getEmail();
         entity.nickName = dto.getNickName();
         entity.password = dto.getPassword();

@@ -11,4 +11,6 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class TokenDto implements Serializable {
     private String accessToken;
+    private Long userId;
+    private String nickName;
 }
