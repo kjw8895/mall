@@ -44,6 +44,12 @@ public class ProductController {
         return CommonResponse.ok(result);
     }
 
+    @PutMapping("/{id}/pay")
+    public ResponseEntity<CommonResponse<ProductDto>> pay(@PathVariable Long id, @CurrentUser UserInfo userInfo) {
+        ProductDto result = productService.pay(userInfo, id);
+        return CommonResponse.ok(result);
+    }
+
     @PostMapping()
     public ResponseEntity<CommonResponse<ProductDto>> save(@CurrentUser UserInfo userInfo, @RequestPart("request") ProductCreateDto dto, @RequestPart("file") MultipartFile file) {
         ProductDto save = productService.save(userInfo, dto, file);

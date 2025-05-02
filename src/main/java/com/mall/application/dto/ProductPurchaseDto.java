@@ -1,8 +1,10 @@
 package com.mall.application.dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.mall.code.ProductType;
 import com.mall.code.PurchaseStatus;
 import com.mall.domain.ProductPurchaseEntity;
+import com.mall.utils.CodeEnumJsonConverter;
 import lombok.Getter;
 
 import java.math.BigDecimal;
@@ -13,9 +15,11 @@ public class ProductPurchaseDto {
     private Long id;
     private Long productId;
     private String productName;
+    @JsonSerialize(using = CodeEnumJsonConverter.Serializer.class)
     private ProductType productType;
     private UserDto user;
     private BigDecimal price;
+    @JsonSerialize(using = CodeEnumJsonConverter.Serializer.class)
     private PurchaseStatus status;
     private LocalDateTime createdDatetime;
 

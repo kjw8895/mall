@@ -1,8 +1,15 @@
 package com.mall.code;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
-public enum ProductStatus {
-    WAITING, PAID
+@RequiredArgsConstructor
+public enum ProductStatus implements CodeEnum {
+    WAITING("WAITING", "판매중"),
+    PAID("PAID", "구매중"),
+    COMPLETE("COMPLETE", "거래 완료");
+
+    private final String code;
+    private final String text;
 }

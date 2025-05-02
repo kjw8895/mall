@@ -41,6 +41,10 @@ public class ProductEntity extends BaseEntity {
     @Column(name = "image_url")
     private String imageUrl;
 
+    public void pay() {
+        this.status = ProductStatus.PAID;
+    }
+
     public void update(ProductCreateDto dto) {
         this.name = dto.getName();
         this.price = dto.getPrice();

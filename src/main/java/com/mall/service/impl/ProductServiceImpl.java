@@ -6,6 +6,7 @@ import com.mall.application.dto.ProductDto;
 import com.mall.application.dto.UserInfo;
 import com.mall.application.search.ProductSearchDto;
 import com.mall.application.vo.ProductUserVo;
+import com.mall.code.PointType;
 import com.mall.config.property.AwsS3Properties;
 import com.mall.domain.ProductEntity;
 import com.mall.domain.UserEntity;
@@ -13,6 +14,7 @@ import com.mall.repository.ProductEntityRepository;
 import com.mall.repository.UserEntityRepository;
 import com.mall.service.AwsS3Service;
 import com.mall.service.ProductService;
+import com.mall.service.UserPointService;
 import com.mall.utils.DefaultDateTimeFormatUtils;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +33,7 @@ import java.time.LocalDateTime;
 public class ProductServiceImpl implements ProductService {
     private final ProductEntityRepository productEntityRepository;
     private final UserEntityRepository userEntityRepository;
+    private final UserPointService userPointService;
     private final AwsS3Service awsS3Service;
     private final AwsS3Properties awsS3Properties;
 
@@ -95,6 +98,21 @@ public class ProductServiceImpl implements ProductService {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public ProductDto pay(UserInfo userInfo, Long id) {
+        ProductEntity product = productEntityRepository.findById(id).orElseThrow();
+
+        Long totalPoint = userPointService.totalPoint(userInfo.getId());
+        if (totalPoint < product.getPrice().longValue()) {
+            throw new RuntimeException("포인트가 부족합니다.");
+        }
+        userPointService.updatePoint(userInfo.getId(), product.getPrice().longValue(), PointType.LOSE);
+        product.pay();
+        productEntityRepository.save(product);
+
+        return ProductDto.toDto(product, product.getUser());
     }
 
     @Override

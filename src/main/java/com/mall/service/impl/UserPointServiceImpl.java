@@ -3,6 +3,7 @@ package com.mall.service.impl;
 import com.mall.code.PointType;
 import com.mall.domain.UserEntity;
 import com.mall.domain.UserPointEntity;
+import com.mall.repository.UserEntityRepository;
 import com.mall.repository.UserPointEntityRepository;
 import com.mall.service.UserPointService;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ import java.util.concurrent.atomic.AtomicReference;
 @RequiredArgsConstructor
 public class UserPointServiceImpl implements UserPointService {
     private final UserPointEntityRepository userPointEntityRepository;
+    private final UserEntityRepository userEntityRepository;
 
     @Override
     public Long totalPoint(Long userId) {
@@ -31,7 +33,8 @@ public class UserPointServiceImpl implements UserPointService {
     }
 
     @Override
-    public void updatePoint(UserEntity user, Long point, PointType type) {
+    public void updatePoint(Long userId, Long point, PointType type) {
+        UserEntity user = userEntityRepository.findById(userId).orElseThrow();
         UserPointEntity entity = UserPointEntity.of(type, point, user);
         userPointEntityRepository.save(entity);
     }
