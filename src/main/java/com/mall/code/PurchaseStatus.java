@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum PurchaseStatus implements CodeEnum {
     OPEN("OPEN", "입찰 완료"),
+    PAID("PAID", "결제 완료"),
     AWARDED("AWARDED", "낙찰");
 
     private final String code;

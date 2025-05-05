@@ -15,5 +15,6 @@ public interface ProductService {
     ProductDto save(UserInfo userInfo, ProductCreateDto dto, MultipartFile file);
     ProductDto update(UserInfo userInfo, ProductCreateDto dto, MultipartFile file, Long id);
     ProductDto pay(UserInfo userInfo, Long id);
+    ProductDto complete(UserInfo userInfo, Long id);
     void deleteById(Long id);
 }

@@ -1,5 +1,6 @@
 package com.mall.domain;
 
+import com.mall.code.ProductType;
 import com.mall.code.PurchaseStatus;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -31,13 +32,14 @@ public class ProductPurchaseEntity extends BaseEntity {
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
-    private PurchaseStatus status = PurchaseStatus.OPEN;
+    private PurchaseStatus status;
 
     public static ProductPurchaseEntity of(UserEntity user, ProductEntity product, BigDecimal price) {
         ProductPurchaseEntity entity = new ProductPurchaseEntity();
         entity.user = user;
         entity.product = product;
         entity.price = price;
+        entity.status = product.getType().equals(ProductType.AUCTION) ? PurchaseStatus.OPEN : PurchaseStatus.PAID;
         return entity;
     }
 }

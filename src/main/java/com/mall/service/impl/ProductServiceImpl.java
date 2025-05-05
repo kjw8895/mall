@@ -13,6 +13,7 @@ import com.mall.domain.UserEntity;
 import com.mall.repository.ProductEntityRepository;
 import com.mall.repository.UserEntityRepository;
 import com.mall.service.AwsS3Service;
+import com.mall.service.ProductPurchaseService;
 import com.mall.service.ProductService;
 import com.mall.service.UserPointService;
 import com.mall.utils.DefaultDateTimeFormatUtils;
@@ -32,6 +33,7 @@ import java.time.LocalDateTime;
 @Transactional
 public class ProductServiceImpl implements ProductService {
     private final ProductEntityRepository productEntityRepository;
+    private final ProductPurchaseService productPurchaseService;
     private final UserEntityRepository userEntityRepository;
     private final UserPointService userPointService;
     private final AwsS3Service awsS3Service;
@@ -111,7 +113,16 @@ public class ProductServiceImpl implements ProductService {
         userPointService.updatePoint(userInfo.getId(), product.getPrice().longValue(), PointType.LOSE);
         product.pay();
         productEntityRepository.save(product);
+        productPurchaseService.save(product.getPrice(), product.getId(), userInfo.getId());
 
+        return ProductDto.toDto(product, product.getUser());
+    }
+
+    @Override
+    public ProductDto complete(UserInfo userInfo, Long id) {
+        ProductEntity product = productEntityRepository.findById(id).orElseThrow();
+        product.complete();
+        productEntityRepository.save(product);
         return ProductDto.toDto(product, product.getUser());
     }
 

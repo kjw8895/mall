@@ -45,6 +45,10 @@ public class ProductEntity extends BaseEntity {
         this.status = ProductStatus.PAID;
     }
 
+    public void complete() {
+        this.status = ProductStatus.COMPLETE;
+    }
+
     public void update(ProductCreateDto dto) {
         this.name = dto.getName();
         this.price = dto.getPrice();
