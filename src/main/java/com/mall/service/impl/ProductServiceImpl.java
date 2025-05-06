@@ -58,18 +58,18 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDto save(UserInfo userInfo, ProductCreateDto dto, MultipartFile file) {
+    public ProductDto save(UserInfo userInfo, ProductCreateDto dto, MultipartFile image, MultipartFile video) {
         try {
-            String timestamp = LocalDateTime.now().format(DefaultDateTimeFormatUtils.DATE_TIME_FILE_NAME_FORMAT);
-            String fileName = String.format("%s_%s", timestamp, file.getOriginalFilename());
-
-            ObjectMetadata metadata = new ObjectMetadata();
-            metadata.setContentLength(file.getSize());
-            metadata.setContentType(file.getContentType());
-            awsS3Service.putObject(awsS3Properties.getBucket(), awsS3Properties.getPath(fileName), file.getInputStream(), metadata);
+            String imageName = makeFile(image);
 
             UserEntity user = userEntityRepository.findById(userInfo.getId()).orElseThrow(RuntimeException::new);
-            ProductEntity product = ProductEntity.of(dto.getName(), dto.getPrice(), user, awsS3Properties.getFullPath(fileName), dto.getType());
+            ProductEntity product = ProductEntity.of(dto.getName(), dto.getPrice(), user, awsS3Properties.getFullPath(imageName), dto.getType());
+
+            if (video != null) {
+                String videoName = makeFile(video);
+                product.updateVideoUrl(awsS3Properties.getFullPath(videoName));
+            }
+
             productEntityRepository.save(product);
             return ProductDto.toDto(product, user);
         } catch (Exception e) {
@@ -78,20 +78,19 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDto update(UserInfo userInfo, ProductCreateDto dto, MultipartFile file, Long id) {
+    public ProductDto update(UserInfo userInfo, ProductCreateDto dto, MultipartFile image, MultipartFile video, Long id) {
         try {
             ProductEntity product = productEntityRepository.findById(id).orElseThrow();
             product.update(dto);
 
-            if (file != null) {
-                String timestamp = LocalDateTime.now().format(DefaultDateTimeFormatUtils.DATE_TIME_FILE_NAME_FORMAT);
-                String fileName = String.format("%s_%s", timestamp, file.getOriginalFilename());
+            if (image != null) {
+                String imageName = makeFile(image);
+                product.updateVideoUrl(awsS3Properties.getFullPath(imageName));
+            }
 
-                ObjectMetadata metadata = new ObjectMetadata();
-                metadata.setContentLength(file.getSize());
-                metadata.setContentType(file.getContentType());
-                awsS3Service.putObject(awsS3Properties.getBucket(), awsS3Properties.getPath(fileName), file.getInputStream(), metadata);
-                product.updateImageUrl(awsS3Properties.getFullPath(fileName));
+            if (video != null) {
+                String videoName = makeFile(video);
+                product.updateVideoUrl(awsS3Properties.getFullPath(videoName));
             }
 
             productEntityRepository.save(product);
@@ -130,5 +129,20 @@ public class ProductServiceImpl implements ProductService {
     public void deleteById(Long id) {
         ProductEntity product = productEntityRepository.findById(id).orElseThrow(RuntimeException::new);
         productEntityRepository.delete(product);
+    }
+
+    private String makeFile(MultipartFile file) {
+        try {
+            String timestamp = LocalDateTime.now().format(DefaultDateTimeFormatUtils.DATE_TIME_FILE_NAME_FORMAT);
+            String fileName = String.format("%s_%s", timestamp, file.getOriginalFilename());
+
+            ObjectMetadata metadata = new ObjectMetadata();
+            metadata.setContentLength(file.getSize());
+            metadata.setContentType(file.getContentType());
+            awsS3Service.putObject(awsS3Properties.getBucket(), awsS3Properties.getPath(fileName), file.getInputStream(), metadata);
+            return fileName;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

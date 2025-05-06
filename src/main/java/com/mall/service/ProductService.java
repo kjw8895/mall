@@ -12,8 +12,8 @@ public interface ProductService {
     Page<ProductDto> page(Pageable pageable, ProductSearchDto searchDto);
     Page<ProductDto> mySelling(UserInfo userInfo, Pageable pageable);
     ProductDto fetchById(Long id);
-    ProductDto save(UserInfo userInfo, ProductCreateDto dto, MultipartFile file);
-    ProductDto update(UserInfo userInfo, ProductCreateDto dto, MultipartFile file, Long id);
+    ProductDto save(UserInfo userInfo, ProductCreateDto dto, MultipartFile image, MultipartFile video);
+    ProductDto update(UserInfo userInfo, ProductCreateDto dto, MultipartFile image, MultipartFile video, Long id);
     ProductDto pay(UserInfo userInfo, Long id);
     ProductDto complete(UserInfo userInfo, Long id);
     void deleteById(Long id);

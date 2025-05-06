@@ -41,6 +41,9 @@ public class ProductEntity extends BaseEntity {
     @Column(name = "image_url")
     private String imageUrl;
 
+    @Column(name = "video_url")
+    private String videoUrl;
+
     public void pay() {
         this.status = ProductStatus.PAID;
     }
@@ -56,6 +59,10 @@ public class ProductEntity extends BaseEntity {
 
     public void updateImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public void updateVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
     }
 
     public static ProductEntity of(String name, BigDecimal price, UserEntity user, String imageUrl, ProductType type) {

@@ -39,8 +39,8 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CommonResponse<ProductDto>> update(@PathVariable Long id, @CurrentUser UserInfo userInfo, @RequestPart("request") ProductCreateDto dto, @RequestPart(value = "file", required = false) MultipartFile file) {
-        ProductDto result = productService.update(userInfo, dto, file, id);
+    public ResponseEntity<CommonResponse<ProductDto>> update(@PathVariable Long id, @CurrentUser UserInfo userInfo, @RequestPart("request") ProductCreateDto dto, @RequestPart(value = "image", required = false) MultipartFile image, @RequestPart(value = "video", required = false) MultipartFile video) {
+        ProductDto result = productService.update(userInfo, dto, image, video, id);
         return CommonResponse.ok(result);
     }
 
@@ -57,8 +57,8 @@ public class ProductController {
     }
 
     @PostMapping()
-    public ResponseEntity<CommonResponse<ProductDto>> save(@CurrentUser UserInfo userInfo, @RequestPart("request") ProductCreateDto dto, @RequestPart("file") MultipartFile file) {
-        ProductDto save = productService.save(userInfo, dto, file);
+    public ResponseEntity<CommonResponse<ProductDto>> save(@CurrentUser UserInfo userInfo, @RequestPart("request") ProductCreateDto dto, @RequestPart(required = false, value = "image") MultipartFile image, @RequestPart("video") MultipartFile video) {
+        ProductDto save = productService.save(userInfo, dto, image, video);
         return CommonResponse.ok(save);
     }
 

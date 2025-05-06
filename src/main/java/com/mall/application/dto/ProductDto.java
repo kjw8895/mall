@@ -21,6 +21,7 @@ public class ProductDto {
     private String name;
     private BigDecimal price;
     private String imageUrl;
+    private String videoUrl;
     private LocalDateTime createdDatetime;
     @JsonSerialize(using = CodeEnumJsonConverter.Serializer.class)
     private ProductStatus status;
@@ -34,6 +35,7 @@ public class ProductDto {
         dto.name = product.getName();
         dto.price = product.getPrice();
         dto.imageUrl = product.getImageUrl();
+        dto.videoUrl = product.getVideoUrl();
         dto.createdDatetime = product.getCreatedDatetime();
         dto.status = product.getStatus();
         dto.type = product.getType();
