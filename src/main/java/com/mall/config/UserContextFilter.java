@@ -25,8 +25,7 @@ public class UserContextFilter extends OncePerRequestFilter {
     public static final List<String> EXCLUDED_END_POINT = List.of(
             "/public/**",
             "/auth/login",
-            "/auth/signup",
-            "/ws-chat/**"
+            "/auth/signup"
     );
 
     public UserContextFilter(JwtTokenProvider jwtTokenProvider) {
