@@ -57,7 +57,7 @@ public class ProductController {
     }
 
     @PostMapping()
-    public ResponseEntity<CommonResponse<ProductDto>> save(@CurrentUser UserInfo userInfo, @RequestPart("request") ProductCreateDto dto, @RequestPart(required = false, value = "image") MultipartFile image, @RequestPart("video") MultipartFile video) {
+    public ResponseEntity<CommonResponse<ProductDto>> save(@CurrentUser UserInfo userInfo, @RequestPart("request") ProductCreateDto dto, @RequestPart(value = "image") MultipartFile image, @RequestPart(required = false, value = "video") MultipartFile video) {
         ProductDto save = productService.save(userInfo, dto, image, video);
         return CommonResponse.ok(save);
     }
