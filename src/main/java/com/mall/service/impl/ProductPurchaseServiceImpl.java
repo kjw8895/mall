@@ -1,6 +1,7 @@
 package com.mall.service.impl;
 
 import com.mall.application.dto.ProductPurchaseDto;
+import com.mall.code.PointType;
 import com.mall.domain.ProductEntity;
 import com.mall.domain.ProductPurchaseEntity;
 import com.mall.domain.UserEntity;
@@ -51,8 +52,24 @@ public class ProductPurchaseServiceImpl implements ProductPurchaseService {
     }
 
     @Override
+    public ProductPurchaseDto awarded(Long productId, Long id) {
+        ProductPurchaseEntity productPurchase = productPurchaseEntityRepository.findById(id).orElseThrow();
+        productPurchase.awarded();
+        UserEntity user = productPurchase.getUser();
+        userPointService.updatePoint(user.getId(), productPurchase.getPrice().longValue(), PointType.LOSE);
+        productPurchaseEntityRepository.save(productPurchase);
+        return ProductPurchaseDto.toDto(productPurchase);
+    }
+
+    @Override
     public void delete(Long id) {
         ProductPurchaseEntity entity = productPurchaseEntityRepository.findById(id).orElseThrow();
         productPurchaseEntityRepository.delete(entity);
+    }
+
+    @Override
+    public void deleteByProductId(Long productId) {
+        List<ProductPurchaseEntity> entities = productPurchaseEntityRepository.findAllByProductId(productId);
+        productPurchaseEntityRepository.deleteAll(entities);
     }
 }

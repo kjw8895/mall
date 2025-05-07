@@ -11,5 +11,7 @@ public interface ProductPurchaseService {
     Page<ProductPurchaseDto> myPurchaseList(Long userId, Pageable pageable);
     List<ProductPurchaseDto> purchaseList(Long productId);
     ProductPurchaseDto save(BigDecimal price, Long productId, Long userId);
+    ProductPurchaseDto awarded(Long productId, Long id);
     void delete(Long id);
+    void deleteByProductId(Long productId);
 }

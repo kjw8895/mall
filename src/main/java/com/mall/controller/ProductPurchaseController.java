@@ -42,4 +42,10 @@ public class ProductPurchaseController {
         ProductPurchaseDto dto = productPurchaseService.save(req.getPrice(), productId, userInfo.getId());
         return CommonResponse.ok(dto);
     }
+
+    @PutMapping("/{productId}/purchase/{id}")
+    public ResponseEntity<CommonResponse<ProductPurchaseDto>> awarded(@CurrentUser UserInfo userInfo, @PathVariable Long productId, @PathVariable Long id) {
+        ProductPurchaseDto dto = productPurchaseService.awarded(productId, id);
+        return CommonResponse.ok(dto);
+    }
 }

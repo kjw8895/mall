@@ -34,6 +34,11 @@ public class ProductPurchaseEntity extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private PurchaseStatus status;
 
+    public void awarded() {
+        this.status = PurchaseStatus.AWARDED;
+        this.product.complete();
+    }
+
     public static ProductPurchaseEntity of(UserEntity user, ProductEntity product, BigDecimal price) {
         ProductPurchaseEntity entity = new ProductPurchaseEntity();
         entity.user = user;

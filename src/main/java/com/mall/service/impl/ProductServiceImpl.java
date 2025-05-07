@@ -128,6 +128,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void deleteById(Long id) {
         ProductEntity product = productEntityRepository.findById(id).orElseThrow(RuntimeException::new);
+        productPurchaseService.deleteByProductId(product.getId());
         productEntityRepository.delete(product);
     }
 
