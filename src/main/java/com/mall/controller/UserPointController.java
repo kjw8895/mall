@@ -23,7 +23,7 @@ public class UserPointController {
 
     @PostMapping()
     public ResponseEntity<CommonResponse<Boolean>> create(@CurrentUser UserInfo userInfo, @RequestBody UserPointDto dto) {
-        userPointService.updatePoint(userInfo.getId(), dto.getPoint(), PointType.EARN);
+        userPointService.create(dto, userInfo, PointType.EARN);
         return CommonResponse.ok(Boolean.TRUE);
     }
 }

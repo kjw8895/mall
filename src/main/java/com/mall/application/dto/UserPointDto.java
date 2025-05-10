@@ -8,5 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserPointDto {
+    private String paymentKey;
+    private String orderId;
     private Long point;
 }
