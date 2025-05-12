@@ -85,7 +85,7 @@ public class ProductServiceImpl implements ProductService {
 
             if (image != null) {
                 String imageName = makeFile(image);
-                product.updateVideoUrl(awsS3Properties.getFullPath(imageName));
+                product.updateImageUrl(awsS3Properties.getFullPath(imageName));
             }
 
             if (video != null) {
