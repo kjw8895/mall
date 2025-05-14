@@ -29,7 +29,7 @@ spring:
 
   config.activate.on-profile: local
   datasource:
-    url: jdbc:mysql://localhost:3306/mall
+    url: jdbc:mysql://127.0.0.1:3306/mall
     username: root
     password: NewStrongPassword123!
     driver-class-name: software.aws.rds.jdbc.mysql.Driver
