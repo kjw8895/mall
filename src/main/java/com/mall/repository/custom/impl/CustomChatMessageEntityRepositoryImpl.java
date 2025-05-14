@@ -31,7 +31,7 @@ public class CustomChatMessageEntityRepositoryImpl extends QuerydslRepositorySup
                 .join(USER).on(CHAT_ROOM.sellerId.eq(USER.id))
                 .join(buyer).on(CHAT_ROOM.buyerId.eq(buyer.id))
                 .where(CHAT_ROOM.id.eq(roomId))
-                .orderBy(CHAT_MESSAGE.createdDatetime.desc())
+                .orderBy(CHAT_MESSAGE.createdDatetime.asc())
                 .select(Projections.constructor(ChatMessageDto.class,
                         CHAT_MESSAGE.id,
                         CHAT_ROOM.id,
