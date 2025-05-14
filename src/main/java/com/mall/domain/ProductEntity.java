@@ -23,6 +23,9 @@ public class ProductEntity extends BaseEntity {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "description")
+    private String description;
+
     @Column(name = "price")
     private BigDecimal price;
 
@@ -54,6 +57,7 @@ public class ProductEntity extends BaseEntity {
 
     public void update(ProductCreateDto dto) {
         this.name = dto.getName();
+        this.description = dto.getDescription();
         this.price = dto.getPrice();
     }
 
@@ -65,9 +69,10 @@ public class ProductEntity extends BaseEntity {
         this.videoUrl = videoUrl;
     }
 
-    public static ProductEntity of(String name, BigDecimal price, UserEntity user, String imageUrl, ProductType type) {
+    public static ProductEntity of(String name, String description, BigDecimal price, UserEntity user, String imageUrl, ProductType type) {
         ProductEntity productEntity = new ProductEntity();
         productEntity.name = name;
+        productEntity.description = description;
         productEntity.price = price;
         productEntity.user = user;
         productEntity.imageUrl = imageUrl;

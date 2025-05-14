@@ -19,6 +19,7 @@ import java.time.LocalDateTime;
 public class ProductDto {
     private Long id;
     private String name;
+    private String description;
     private BigDecimal price;
     private String imageUrl;
     private String videoUrl;
@@ -33,6 +34,7 @@ public class ProductDto {
         ProductDto dto = new ProductDto();
         dto.id = product.getId();
         dto.name = product.getName();
+        dto.description = product.getDescription();
         dto.price = product.getPrice();
         dto.imageUrl = product.getImageUrl();
         dto.videoUrl = product.getVideoUrl();

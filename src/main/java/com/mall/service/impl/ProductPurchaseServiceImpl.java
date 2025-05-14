@@ -57,6 +57,7 @@ public class ProductPurchaseServiceImpl implements ProductPurchaseService {
         productPurchase.awarded();
         UserEntity user = productPurchase.getUser();
         userPointService.updatePoint(user.getId(), productPurchase.getPrice().longValue(), PointType.LOSE);
+        userPointService.updatePoint(productPurchase.getProduct().getUser().getId(), productPurchase.getPrice().longValue(), PointType.EARN);
         productPurchaseEntityRepository.save(productPurchase);
         return ProductPurchaseDto.toDto(productPurchase);
     }

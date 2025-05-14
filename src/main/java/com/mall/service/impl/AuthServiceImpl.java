@@ -42,4 +42,10 @@ public class AuthServiceImpl implements AuthService {
 
         return new UserDto(user.getId(), user.getEmail(), user.getName(), user.getNickName());
     }
+
+    @Override
+    public boolean checkNickName(String nickName) {
+        Optional<UserEntity> optional = userEntityRepository.findByNickName(nickName);
+        return optional.isPresent();
+    }
 }

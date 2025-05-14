@@ -63,7 +63,7 @@ public class ProductServiceImpl implements ProductService {
             String imageName = makeFile(image);
 
             UserEntity user = userEntityRepository.findById(userInfo.getId()).orElseThrow(RuntimeException::new);
-            ProductEntity product = ProductEntity.of(dto.getName(), dto.getPrice(), user, awsS3Properties.getFullPath(imageName), dto.getType());
+            ProductEntity product = ProductEntity.of(dto.getName(), dto.getDescription(), dto.getPrice(), user, awsS3Properties.getFullPath(imageName), dto.getType());
 
             if (video != null) {
                 String videoName = makeFile(video);
@@ -121,6 +121,7 @@ public class ProductServiceImpl implements ProductService {
     public ProductDto complete(UserInfo userInfo, Long id) {
         ProductEntity product = productEntityRepository.findById(id).orElseThrow();
         product.complete();
+        userPointService.updatePoint(product.getUser().getId(), product.getPrice().longValue(), PointType.EARN);
         productEntityRepository.save(product);
         return ProductDto.toDto(product, product.getUser());
     }

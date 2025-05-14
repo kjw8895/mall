@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 @Setter
 public class ProductCreateDto {
     private String name;
+    private String description;
     private BigDecimal price;
     private ProductType type;
 }

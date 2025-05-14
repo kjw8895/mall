@@ -8,10 +8,7 @@ import com.mall.common.CommonResponse;
 import com.mall.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
@@ -29,5 +26,11 @@ public class AuthController {
     public ResponseEntity<CommonResponse<UserDto>> signup(@RequestBody SignUpDto signUpDto) {
         UserDto dto = authService.signUp(signUpDto);
         return CommonResponse.ok(dto);
+    }
+
+    @GetMapping("/nickName/validation")
+    public ResponseEntity<CommonResponse<Boolean>> validateNickName(@RequestParam("nickName") String nickName) {
+        boolean result = authService.checkNickName(nickName);
+        return CommonResponse.ok(result);
     }
 }
