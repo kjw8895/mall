@@ -9,6 +9,7 @@ import com.mall.application.vo.ProductUserVo;
 import com.mall.code.PointType;
 import com.mall.config.property.AwsS3Properties;
 import com.mall.domain.ProductEntity;
+import com.mall.domain.ProductPurchaseEntity;
 import com.mall.domain.UserEntity;
 import com.mall.repository.ProductEntityRepository;
 import com.mall.repository.UserEntityRepository;
@@ -109,7 +110,7 @@ public class ProductServiceImpl implements ProductService {
         if (totalPoint < product.getPrice().longValue()) {
             throw new RuntimeException("포인트가 부족합니다.");
         }
-        userPointService.updatePoint(userInfo.getId(), product.getPrice().longValue(), PointType.LOSE);
+//        userPointService.updatePoint(userInfo.getId(), product.getPrice().longValue(), PointType.LOSE);
         product.pay();
         productEntityRepository.save(product);
         productPurchaseService.save(product.getPrice(), product.getId(), userInfo.getId());
@@ -122,6 +123,8 @@ public class ProductServiceImpl implements ProductService {
         ProductEntity product = productEntityRepository.findById(id).orElseThrow();
         product.complete();
         userPointService.updatePoint(product.getUser().getId(), product.getPrice().longValue(), PointType.EARN);
+        ProductPurchaseEntity productPurchaseEntity = productPurchaseService.findByProductId(id).orElseThrow();
+        userPointService.updatePoint(productPurchaseEntity.getUser().getId(), product.getPrice().longValue(), PointType.LOSE);
         productEntityRepository.save(product);
         return ProductDto.toDto(product, product.getUser());
     }

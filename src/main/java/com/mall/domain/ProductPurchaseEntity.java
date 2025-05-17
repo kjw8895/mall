@@ -39,6 +39,10 @@ public class ProductPurchaseEntity extends BaseEntity {
         this.product.complete();
     }
 
+    public void paid() {
+        this.status = PurchaseStatus.PAID;
+    }
+
     public static ProductPurchaseEntity of(UserEntity user, ProductEntity product, BigDecimal price) {
         ProductPurchaseEntity entity = new ProductPurchaseEntity();
         entity.user = user;

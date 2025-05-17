@@ -2,6 +2,7 @@ package com.mall.service.impl;
 
 import com.mall.application.dto.ProductPurchaseDto;
 import com.mall.code.PointType;
+import com.mall.code.PurchaseStatus;
 import com.mall.domain.ProductEntity;
 import com.mall.domain.ProductPurchaseEntity;
 import com.mall.domain.UserEntity;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -43,10 +45,16 @@ public class ProductPurchaseServiceImpl implements ProductPurchaseService {
     }
 
     @Override
+    public Optional<ProductPurchaseEntity> findByProductId(Long productId) {
+        return productPurchaseEntityRepository.findFirstByProductIdAndStatus(productId, PurchaseStatus.PAID);
+    }
+
+    @Override
     public ProductPurchaseDto save(BigDecimal price, Long productId, Long userId) {
         UserEntity user = userEntityRepository.findById(userId).orElseThrow();
         ProductEntity product = productEntityRepository.findById(productId).orElseThrow();
         ProductPurchaseEntity productPurchase = ProductPurchaseEntity.of(user, product, price);
+        productPurchase.paid();
         productPurchaseEntityRepository.save(productPurchase);
         return ProductPurchaseDto.toDto(productPurchase);
     }
