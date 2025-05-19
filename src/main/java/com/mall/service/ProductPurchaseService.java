@@ -14,6 +14,7 @@ public interface ProductPurchaseService {
     List<ProductPurchaseDto> purchaseList(Long productId);
     Optional<ProductPurchaseEntity> findByProductId(Long productId);
     ProductPurchaseDto save(BigDecimal price, Long productId, Long userId);
+    ProductPurchaseDto purchase(BigDecimal price, Long productId, Long userId);
     ProductPurchaseDto awarded(Long productId, Long id);
     void delete(Long id);
     void deleteByProductId(Long productId);

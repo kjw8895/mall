@@ -39,7 +39,7 @@ public class ProductPurchaseController {
 
     @PostMapping("/{productId}/purchase")
     public ResponseEntity<CommonResponse<ProductPurchaseDto>> purchase(@CurrentUser UserInfo userInfo, @PathVariable Long productId, @RequestBody ProductPurchaseDto req) {
-        ProductPurchaseDto dto = productPurchaseService.save(req.getPrice(), productId, userInfo.getId());
+        ProductPurchaseDto dto = productPurchaseService.purchase(req.getPrice(), productId, userInfo.getId());
         return CommonResponse.ok(dto);
     }
 

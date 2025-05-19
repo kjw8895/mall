@@ -60,6 +60,15 @@ public class ProductPurchaseServiceImpl implements ProductPurchaseService {
     }
 
     @Override
+    public ProductPurchaseDto purchase(BigDecimal price, Long productId, Long userId) {
+        UserEntity user = userEntityRepository.findById(userId).orElseThrow();
+        ProductEntity product = productEntityRepository.findById(productId).orElseThrow();
+        ProductPurchaseEntity productPurchase = ProductPurchaseEntity.of(user, product, price);
+        productPurchaseEntityRepository.save(productPurchase);
+        return ProductPurchaseDto.toDto(productPurchase);
+    }
+
+    @Override
     public ProductPurchaseDto awarded(Long productId, Long id) {
         ProductPurchaseEntity productPurchase = productPurchaseEntityRepository.findById(id).orElseThrow();
         productPurchase.awarded();
