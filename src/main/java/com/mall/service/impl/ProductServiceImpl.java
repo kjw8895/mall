@@ -124,6 +124,7 @@ public class ProductServiceImpl implements ProductService {
         product.complete();
         userPointService.updatePoint(product.getUser().getId(), product.getPrice().longValue(), PointType.EARN);
         ProductPurchaseEntity productPurchaseEntity = productPurchaseService.findByProductId(id).orElseThrow();
+        productPurchaseEntity.completed();
         userPointService.updatePoint(productPurchaseEntity.getUser().getId(), product.getPrice().longValue(), PointType.LOSE);
         productEntityRepository.save(product);
         return ProductDto.toDto(product, product.getUser());

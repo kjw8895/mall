@@ -55,6 +55,10 @@ public class ProductEntity extends BaseEntity {
         this.status = ProductStatus.COMPLETE;
     }
 
+    public void waiting() {
+        this.status = ProductStatus.WAITING;
+    }
+
     public void update(ProductCreateDto dto) {
         this.name = dto.getName();
         this.description = dto.getDescription();

@@ -17,5 +17,6 @@ public interface ProductPurchaseService {
     ProductPurchaseDto purchase(BigDecimal price, Long productId, Long userId);
     ProductPurchaseDto awarded(Long productId, Long id);
     void delete(Long id);
+    void deleteNormal(Long id);
     void deleteByProductId(Long productId);
 }

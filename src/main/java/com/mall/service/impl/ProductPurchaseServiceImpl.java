@@ -86,6 +86,15 @@ public class ProductPurchaseServiceImpl implements ProductPurchaseService {
     }
 
     @Override
+    public void deleteNormal(Long id) {
+        ProductPurchaseEntity entity = productPurchaseEntityRepository.findById(id).orElseThrow();
+        ProductEntity product = entity.getProduct();
+        product.waiting();
+        productEntityRepository.save(product);
+        productPurchaseEntityRepository.delete(entity);
+    }
+
+    @Override
     public void deleteByProductId(Long productId) {
         List<ProductPurchaseEntity> entities = productPurchaseEntityRepository.findAllByProductId(productId);
         productPurchaseEntityRepository.deleteAll(entities);

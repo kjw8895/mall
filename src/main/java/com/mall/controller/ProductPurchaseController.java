@@ -31,6 +31,12 @@ public class ProductPurchaseController {
         return CommonResponse.ok(true);
     }
 
+    @DeleteMapping("/purchase/{id}/normal")
+    public ResponseEntity<CommonResponse<Boolean>> deletePurchaseNormal(@PathVariable Long id) {
+        productPurchaseService.deleteNormal(id);
+        return CommonResponse.ok(true);
+    }
+
     @GetMapping("/{productId}/purchase")
     public ResponseEntity<CommonResponse<List<ProductPurchaseDto>>> getPurchase(@PathVariable Long productId) {
         List<ProductPurchaseDto> result = productPurchaseService.purchaseList(productId);
