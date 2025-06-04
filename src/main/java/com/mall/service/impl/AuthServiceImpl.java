@@ -53,7 +53,13 @@ public class AuthServiceImpl implements AuthService {
     @Override
     @Transactional
     public UserDto signUp(SignUpDto signUpDto) {
+        Optional<UserEntity> optionalUser = userEntityRepository.findByEmail(signUpDto.getEmail());
+        if (optionalUser.isPresent()) {
+            throw new CustomException("이미 존재하는 이메일입니다.", 404);
+        }
+
         signUpDto.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
+
         UserEntity user = userEntityRepository.save(UserEntity.of(signUpDto));
 
         emailService.sendVerificationEmail(user, UUID.randomUUID().toString());
