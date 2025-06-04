@@ -39,7 +39,11 @@ public class UserEntity extends BaseEntity {
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
-    private UserStatus status = UserStatus.ACTIVE;
+    private UserStatus status = UserStatus.WAITING;
+
+    public void verify() {
+        this.status = UserStatus.ACTIVE;
+    }
 
     public static UserEntity of(SignUpDto dto) {
         UserEntity entity = new UserEntity();

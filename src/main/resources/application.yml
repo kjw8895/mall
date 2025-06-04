@@ -69,3 +69,7 @@ aws:
     bucket: trusttrade
     attachment-path: attachment
     base-url: https://trusttrade.s3.ap-northeast-2.amazonaws.com
+
+email:
+  verify-url: "http://3.34.162.138:8081/auth/verify?token="
+  source-email: "ehdgus4854@naver.com"

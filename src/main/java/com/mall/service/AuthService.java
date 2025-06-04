@@ -8,5 +8,6 @@ import com.mall.application.dto.UserDto;
 public interface AuthService {
     TokenDto login(LoginDto loginDto);
     UserDto signUp(SignUpDto signUpDto);
+    boolean verify(String token);
     boolean checkNickName(String nickName);
 }

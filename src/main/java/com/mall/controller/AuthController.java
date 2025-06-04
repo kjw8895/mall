@@ -28,6 +28,11 @@ public class AuthController {
         return CommonResponse.ok(dto);
     }
 
+    @GetMapping("/verify")
+    public ResponseEntity<CommonResponse<Boolean>> verify(@RequestParam String token) {
+        return CommonResponse.ok(authService.verify(token));
+    }
+
     @GetMapping("/nickName/validation")
     public ResponseEntity<CommonResponse<Boolean>> validateNickName(@RequestParam("nickName") String nickName) {
         boolean result = authService.checkNickName(nickName);
